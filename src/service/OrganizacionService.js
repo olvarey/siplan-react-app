@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = "http://localhost:8080/api-siplan/v1/organizaciones";
-const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJvbHZhcmV5IiwiZXhwIjoxNjUzNjIyNDczLCJpYXQiOjE2NTM1ODY0NzN9.6G2QDHqOU_Y2JotUAontdBKGp8ua7Pk3ulPjCUfp7XI";
+const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJvbHZhcmV5IiwiZXhwIjoxNjUzNjk1Mjg1LCJpYXQiOjE2NTM2NTkyODV9.apZpm6t7M73FdgGX4U-TURFOhjgvokpkMZ1vthf4PFQ";
 
 export class OrganizacionService {
     getOrganizaciones() {
