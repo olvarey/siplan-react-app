@@ -54,18 +54,25 @@ const CrudOrganizaciones = () => {
     };
 
     const saveOrganizacion = () => {
+        const organizacionService = new OrganizacionService();
         setSubmitted(true);
 
         if (organizacion.nombreOrganizacion.trim()) {
             let _organizaciones = [...organizaciones];
             let _organizacion = { ...organizacion };
+            //UPDATE
             if (organizacion.idOrganizacion) {
                 const index = findIndexById(organizacion.idOrganizacion);
-
                 _organizaciones[index] = _organizacion;
+                organizacionService.saveOrganizacion(_organizacion);
                 toast.current.show({ severity: "success", summary: "Éxito", detail: "Organización actualizada", life: 3000 });
-            } else {
-                _organizacion.idOrganizacion = createId();
+            }
+            //CREATE
+            else {
+                organizacionService.saveOrganizacion(_organizacion).then((data) => {
+                    _organizacion = { ...data };
+                    console.log(_organizacion);
+                });
                 _organizaciones.push(_organizacion);
                 toast.current.show({ severity: "success", summary: "Éxito", detail: "Organización creada", life: 3000 });
             }
@@ -102,17 +109,7 @@ const CrudOrganizaciones = () => {
                 break;
             }
         }
-
         return index;
-    };
-
-    const createId = () => {
-        let id = "";
-        let chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        for (let i = 0; i < 5; i++) {
-            id += chars.charAt(Math.floor(Math.random() * chars.length));
-        }
-        return id;
     };
 
     const exportCSV = () => {
