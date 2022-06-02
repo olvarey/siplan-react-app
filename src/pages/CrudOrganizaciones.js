@@ -63,23 +63,26 @@ const CrudOrganizaciones = () => {
             //UPDATE
             if (organizacion.idOrganizacion) {
                 const index = findIndexById(organizacion.idOrganizacion);
-                _organizaciones[index] = _organizacion;
-                organizacionService.saveOrganizacion(_organizacion);
+                organizacionService.saveOrganizacion(_organizacion).then((data) => {
+                    _organizacion = { ...data };
+                    _organizaciones[index] = { ..._organizacion };
+                    setOrganizaciones(_organizaciones);
+                    setOrganizacionDialog(false);
+                    setOrganizacion(emptyOrganizacion);
+                });
                 toast.current.show({ severity: "success", summary: "Éxito", detail: "Organización actualizada", life: 3000 });
             }
             //CREATE
             else {
                 organizacionService.saveOrganizacion(_organizacion).then((data) => {
                     _organizacion = { ...data };
-                    console.log(_organizacion);
+                    _organizaciones.push(_organizacion);
+                    setOrganizaciones(_organizaciones);
+                    setOrganizacionDialog(false);
+                    setOrganizacion(emptyOrganizacion);
                 });
-                _organizaciones.push(_organizacion);
                 toast.current.show({ severity: "success", summary: "Éxito", detail: "Organización creada", life: 3000 });
             }
-
-            setOrganizaciones(_organizaciones);
-            setOrganizacionDialog(false);
-            setOrganizacion(emptyOrganizacion);
         }
     };
 
@@ -94,10 +97,20 @@ const CrudOrganizaciones = () => {
     };
 
     const deleteOrganizacion = () => {
+        const organizacionService = new OrganizacionService();
         let _organizaciones = organizaciones.filter((val) => val.idOrganizacion !== organizacion.idOrganizacion);
-        setOrganizaciones(_organizaciones);
-        setDeleteOrganizacionDialog(false);
-        setOrganizacion(emptyOrganizacion);
+        organizacionService
+            .deleteOrganizacion(organizacion)
+            .then((res) => {
+                if (res.status === 200) {
+                    setOrganizaciones(_organizaciones);
+                    setDeleteOrganizacionDialog(false);
+                    setOrganizacion(emptyOrganizacion);
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
         toast.current.show({ severity: "success", summary: "Éxito", detail: "Organización borrada.", life: 3000 });
     };
 

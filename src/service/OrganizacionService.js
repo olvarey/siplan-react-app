@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = "http://localhost:8080/api-siplan/v1/organizaciones";
-const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJvbHZhcmV5IiwiZXhwIjoxNjU0MDUxNjcxLCJpYXQiOjE2NTQwMTU2NzF9.HwCr5AuyCmSHJZw6qiMIyTBCeEhqarBw5uJQtWmx5JE";
+const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJvbHZhcmV5IiwiZXhwIjoxNjU0MjI4MjMxLCJpYXQiOjE2NTQxOTIyMzF9.IMgiFKtb6CCMJV9eoxarrEXezYxr-4ntA1gnfHJf93A";
 
 export class OrganizacionService {
     async getOrganizaciones() {
@@ -14,8 +14,17 @@ export class OrganizacionService {
         return res.data;
     }
 
-    async deleteOrganizacion(data) {
-        const res = await axios.post(api, data, { headers: { Authorization: `Bearer ${token}` } });
-        return res.data;
+    deleteOrganizacion(data) {
+        let config = {
+            method: "delete",
+            url: api,
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+            data: data,
+        };
+
+        return axios(config);
     }
 }
