@@ -45,8 +45,10 @@ import "./assets/demo/Demos.scss";
 import "./assets/layout/layout.scss";
 import "./App.scss";
 import CrudOrganizaciones from "./pages/CrudOrganizaciones";
+import Login from "./components/Login";
 
 const App = () => {
+    const [token, setToken] = useState();
     const [layoutMode, setLayoutMode] = useState("static");
     const [layoutColorMode, setLayoutColorMode] = useState("light");
     const [inputStyle, setInputStyle] = useState("outlined");
@@ -308,6 +310,10 @@ const App = () => {
         "p-ripple-disabled": ripple === false,
         "layout-theme-light": layoutColorMode === "light",
     });
+
+    if (!token) {
+        return <Login setToken={setToken} />;
+    }
 
     return (
         <div className={wrapperClass} onClick={onWrapperClick}>

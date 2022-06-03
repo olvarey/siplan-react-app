@@ -109,7 +109,7 @@ const CrudOrganizaciones = () => {
                 }
             })
             .catch((err) => {
-                console.log(err);
+                toast.current.show({ severity: "error", summary: "Falló", detail: "Organización no ha podido ser borrada.", life: 3000 });
             });
         toast.current.show({ severity: "success", summary: "Éxito", detail: "Organización borrada.", life: 3000 });
     };
