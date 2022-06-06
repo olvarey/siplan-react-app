@@ -3,7 +3,7 @@ import axios from "axios";
 const api = "http://localhost:8080/api-siplan/v1/authenticate";
 
 export class LoginService {
-    loginUser(credentials) {
+    async loginUser(credentials) {
         let config = {
             method: "post",
             url: api,

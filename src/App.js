@@ -46,9 +46,9 @@ import "./assets/layout/layout.scss";
 import "./App.scss";
 import CrudOrganizaciones from "./pages/CrudOrganizaciones";
 import Login from "./components/Login";
+import useToken from "./components/hooks/useToken";
 
 const App = () => {
-    const [token, setToken] = useState();
     const [layoutMode, setLayoutMode] = useState("static");
     const [layoutColorMode, setLayoutColorMode] = useState("light");
     const [inputStyle, setInputStyle] = useState("outlined");
@@ -311,6 +311,7 @@ const App = () => {
         "layout-theme-light": layoutColorMode === "light",
     });
 
+    const { token, setToken } = useToken();
     if (!token) {
         return <Login setToken={setToken} />;
     }

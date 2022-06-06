@@ -30,8 +30,11 @@ const CrudOrganizaciones = () => {
     const dt = useRef(null);
 
     useEffect(() => {
+        const tokenString = localStorage.getItem("token");
+        const userToken = JSON.parse(tokenString);
+        const token = userToken?.data.access_token;
         const organizacionService = new OrganizacionService();
-        organizacionService.getOrganizaciones().then((data) => setOrganizaciones(data));
+        organizacionService.getOrganizaciones(token).then((data) => setOrganizaciones(data));
     }, []);
 
     // const formatCurrency = (value) => {
