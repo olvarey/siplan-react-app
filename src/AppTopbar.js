@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import classNames from "classnames";
+import { Button } from "primereact/button";
 
 export const AppTopbar = (props) => {
     return (
@@ -27,15 +28,12 @@ export const AppTopbar = (props) => {
                 </li>
                 <li>
                     <button className="p-link layout-topbar-button" onClick={props.onMobileSubTopbarMenuClick}>
-                        <i className="pi pi-cog" />
-                        <span>Settings</span>
+                        <i className="pi pi-user" />
+                        <span></span>
                     </button>
                 </li>
                 <li>
-                    <button className="p-link layout-topbar-button" onClick={props.onMobileSubTopbarMenuClick}>
-                        <i className="pi pi-user" />
-                        <span>Profile</span>
-                    </button>
+                    <Button label="Salir" icon="pi pi-sign-out" className="p-button-secondary" onClick={props.onClickLogoutUser} />
                 </li>
             </ul>
         </div>

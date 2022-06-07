@@ -134,6 +134,11 @@ const App = () => {
         return window.innerWidth >= 992;
     };
 
+    const onClickLogoutUser = (event) => {
+        localStorage.clear();
+        window.location.reload(false);
+    };
+
     const menu = [
         {
             label: "Inicio",
@@ -148,10 +153,7 @@ const App = () => {
         {
             label: "Administración",
             icon: "pi pi-fw pi-sitemap",
-            items: [
-                { label: "Organizaciones", icon: "pi pi-fw pi-building", to: "/organizaciones" },
-                { label: "Objetivos", icon: "pi pi-fw pi-building", to: "/" },
-            ],
+            items: [{ label: "Usuarios", icon: "pi pi-fw pi-building", to: "/" }],
         },
         {
             label: "Plan estratégico",
@@ -168,18 +170,18 @@ const App = () => {
             label: "Catálogos",
             icon: "pi pi-fw pi-sitemap",
             items: [
-                { label: "Años", icon: "pi pi-fw pi-building", to: "/organizaciones" },
-                { label: "Meses", icon: "pi pi-fw pi-building", to: "/organizaciones" },
-                { label: "Financiamientos", icon: "pi pi-fw pi-building", to: "/organizaciones" },
-                { label: "Indicadores", icon: "pi pi-fw pi-building", to: "/organizaciones" },
-                { label: "Lineas de trabajo", icon: "pi pi-fw pi-building", to: "/organizaciones" },
+                { label: "Años", icon: "pi pi-fw pi-building", to: "/" },
+                { label: "Meses", icon: "pi pi-fw pi-building", to: "/" },
+                { label: "Financiamientos", icon: "pi pi-fw pi-building", to: "/" },
+                { label: "Indicadores", icon: "pi pi-fw pi-building", to: "/" },
+                { label: "Lineas de trabajo", icon: "pi pi-fw pi-building", to: "/" },
                 { label: "Organizaciones", icon: "pi pi-fw pi-building", to: "/organizaciones" },
-                { label: "Periodos", icon: "pi pi-fw pi-building", to: "/organizaciones" },
-                { label: "Tipos de indicador", icon: "pi pi-fw pi-building", to: "/organizaciones" },
-                { label: "Tipos de objetivo", icon: "pi pi-fw pi-building", to: "/organizaciones" },
-                { label: "Unidades de medida", icon: "pi pi-fw pi-building", to: "/organizaciones" },
-                { label: "Unidades organizativas", icon: "pi pi-fw pi-building", to: "/organizaciones" },
-                { label: "Unidades presupuestarias", icon: "pi pi-fw pi-building", to: "/organizaciones" },
+                { label: "Periodos", icon: "pi pi-fw pi-building", to: "/" },
+                { label: "Tipos de indicador", icon: "pi pi-fw pi-building", to: "/" },
+                { label: "Tipos de objetivo", icon: "pi pi-fw pi-building", to: "/" },
+                { label: "Unidades de medida", icon: "pi pi-fw pi-building", to: "/" },
+                { label: "Unidades organizativas", icon: "pi pi-fw pi-building", to: "/" },
+                { label: "Unidades presupuestarias", icon: "pi pi-fw pi-building", to: "/" },
             ],
         },
     ];
@@ -214,7 +216,7 @@ const App = () => {
         <div className={wrapperClass} onClick={onWrapperClick}>
             <Tooltip ref={copyTooltipRef} target=".block-action-copy" position="bottom" content="Copied to clipboard" event="focus" />
 
-            <AppTopbar onToggleMenuClick={onToggleMenuClick} layoutColorMode={layoutColorMode} mobileTopbarMenuActive={mobileTopbarMenuActive} onMobileTopbarMenuClick={onMobileTopbarMenuClick} onMobileSubTopbarMenuClick={onMobileSubTopbarMenuClick} />
+            <AppTopbar onToggleMenuClick={onToggleMenuClick} layoutColorMode={layoutColorMode} mobileTopbarMenuActive={mobileTopbarMenuActive} onMobileTopbarMenuClick={onMobileTopbarMenuClick} onMobileSubTopbarMenuClick={onMobileSubTopbarMenuClick} onClickLogoutUser={onClickLogoutUser} />
 
             <div className="layout-sidebar" onClick={onSidebarClick}>
                 <AppMenu model={menu} onMenuItemClick={onMenuItemClick} layoutColorMode={layoutColorMode} />
