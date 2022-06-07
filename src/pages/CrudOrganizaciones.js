@@ -29,12 +29,26 @@ const CrudOrganizaciones = () => {
     const toast = useRef(null);
     const dt = useRef(null);
 
-    useEffect(() => {
+    const fetchToken = () => {
         const tokenString = localStorage.getItem("token");
         const userToken = JSON.parse(tokenString);
         const token = userToken?.data.access_token;
+        return token;
+    };
+
+    useEffect(() => {
         const organizacionService = new OrganizacionService();
-        organizacionService.getOrganizaciones(token).then((data) => setOrganizaciones(data));
+        organizacionService
+            .getOrganizaciones(fetchToken())
+            .then((res) => {
+                if (res.status === 200) {
+                    setOrganizaciones(res.data);
+                    toast.current.show({ severity: "success", summary: "Éxito", detail: "Organizaciones cargadas con éxito", life: 3000 });
+                }
+            })
+            .catch((err) => {
+                toast.current.show({ severity: "error", summary: "Falló", detail: "Organizaciones no han podido ser cargadas.", life: 3000 });
+            });
     }, []);
 
     // const formatCurrency = (value) => {
@@ -66,25 +80,39 @@ const CrudOrganizaciones = () => {
             //UPDATE
             if (organizacion.idOrganizacion) {
                 const index = findIndexById(organizacion.idOrganizacion);
-                organizacionService.saveOrganizacion(_organizacion).then((data) => {
-                    _organizacion = { ...data };
-                    _organizaciones[index] = { ..._organizacion };
-                    setOrganizaciones(_organizaciones);
-                    setOrganizacionDialog(false);
-                    setOrganizacion(emptyOrganizacion);
-                });
-                toast.current.show({ severity: "success", summary: "Éxito", detail: "Organización actualizada", life: 3000 });
+                organizacionService
+                    .saveOrganizacion(_organizacion, fetchToken())
+                    .then((res) => {
+                        if (res.status === 200) {
+                            _organizacion = { ...res.data };
+                            _organizaciones[index] = { ..._organizacion };
+                            setOrganizaciones(_organizaciones);
+                            setOrganizacionDialog(false);
+                            setOrganizacion(emptyOrganizacion);
+                            toast.current.show({ severity: "success", summary: "Éxito", detail: "Organización actualizada", life: 3000 });
+                        }
+                    })
+                    .catch((err) => {
+                        toast.current.show({ severity: "error", summary: "Falló", detail: "Organización no ha podido ser actualizada.", life: 3000 });
+                    });
             }
             //CREATE
             else {
-                organizacionService.saveOrganizacion(_organizacion).then((data) => {
-                    _organizacion = { ...data };
-                    _organizaciones.push(_organizacion);
-                    setOrganizaciones(_organizaciones);
-                    setOrganizacionDialog(false);
-                    setOrganizacion(emptyOrganizacion);
-                });
-                toast.current.show({ severity: "success", summary: "Éxito", detail: "Organización creada", life: 3000 });
+                organizacionService
+                    .saveOrganizacion(_organizacion, fetchToken())
+                    .then((res) => {
+                        if (res.status === 200) {
+                            _organizacion = { ...res.data };
+                            _organizaciones.push(_organizacion);
+                            setOrganizaciones(_organizaciones);
+                            setOrganizacionDialog(false);
+                            setOrganizacion(emptyOrganizacion);
+                            toast.current.show({ severity: "success", summary: "Éxito", detail: "Organización creada", life: 3000 });
+                        }
+                    })
+                    .catch((err) => {
+                        toast.current.show({ severity: "error", summary: "Falló", detail: "Organización no ha podido ser creada.", life: 3000 });
+                    });
             }
         }
     };
@@ -103,18 +131,18 @@ const CrudOrganizaciones = () => {
         const organizacionService = new OrganizacionService();
         let _organizaciones = organizaciones.filter((val) => val.idOrganizacion !== organizacion.idOrganizacion);
         organizacionService
-            .deleteOrganizacion(organizacion)
+            .deleteOrganizacion(organizacion, fetchToken())
             .then((res) => {
                 if (res.status === 200) {
                     setOrganizaciones(_organizaciones);
                     setDeleteOrganizacionDialog(false);
                     setOrganizacion(emptyOrganizacion);
+                    toast.current.show({ severity: "success", summary: "Éxito", detail: "Organización borrada.", life: 3000 });
                 }
             })
             .catch((err) => {
                 toast.current.show({ severity: "error", summary: "Falló", detail: "Organización no ha podido ser borrada.", life: 3000 });
             });
-        toast.current.show({ severity: "success", summary: "Éxito", detail: "Organización borrada.", life: 3000 });
     };
 
     const findIndexById = (id) => {
