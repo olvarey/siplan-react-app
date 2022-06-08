@@ -1,12 +1,10 @@
-import React from 'react';
+import React from "react";
 
-export const AppFooter = (props) => {
-
+export const AppFooter = () => {
     return (
         <div className="layout-footer">
-            <img src={props.layoutColorMode === 'light' ? 'assets/layout/images/logo-dark.svg' : 'assets/layout/images/logo-white.svg'} alt="Logo" height="20" className="mr-2" />
-            by
+            <img src="assets/layout/images/logo-dark.svg" alt="Logo" height="20" className="mr-2" />
             <span className="font-medium ml-2">CAJAMINED</span>
         </div>
     );
-}
+};

@@ -7,7 +7,7 @@ export const AppTopbar = (props) => {
     return (
         <div className="layout-topbar">
             <Link to="/" className="layout-topbar-logo">
-                <img src={props.layoutColorMode === "light" ? "assets/layout/images/logo-dark.svg" : "assets/layout/images/logo-white.svg"} alt="logo" />
+                <img src="assets/layout/images/logo-dark.svg" alt="logo" />
                 <span>SIPLAN</span>
             </Link>
 
@@ -29,7 +29,7 @@ export const AppTopbar = (props) => {
                 <li>
                     <button className="p-link layout-topbar-button" onClick={props.onMobileSubTopbarMenuClick}>
                         <i className="pi pi-user" />
-                        <span></span>
+                        <span>Perfil</span>
                     </button>
                 </li>
                 <li>
