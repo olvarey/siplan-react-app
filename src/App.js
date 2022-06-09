@@ -5,12 +5,12 @@ import { CSSTransition } from "react-transition-group";
 
 import { AppTopbar } from "./AppTopbar";
 import { AppFooter } from "./AppFooter";
-import { AppMenu } from "./AppMenu";
 
 import Dashboard from "./components/Dashboard";
 
 import PrimeReact from "primereact/api";
 import { Tooltip } from "primereact/tooltip";
+import { PanelMenu } from "primereact/panelmenu";
 
 import "primereact/resources/primereact.css";
 import "primeicons/primeicons.css";
@@ -23,6 +23,7 @@ import "./App.scss";
 import CrudOrganizaciones from "./pages/CrudOrganizaciones";
 import Login from "./components/Login";
 import useToken from "./components/hooks/useToken";
+import CrudTiposObjetivo from "./pages/CrudTiposObjetivo";
 
 const App = () => {
     const [layoutMode, setLayoutMode] = useState("static");
@@ -139,49 +140,162 @@ const App = () => {
         window.location.reload(false);
     };
 
-    const menu = [
+    const items = [
         {
             label: "Inicio",
+            icon: "pi pi-fw pi-globe",
             items: [
                 {
                     label: "Inicio",
                     icon: "pi pi-fw pi-home",
-                    to: "/",
+                    command: () => {
+                        window.location.hash = "/";
+                    },
                 },
             ],
         },
         {
             label: "Administración",
-            icon: "pi pi-fw pi-sitemap",
-            items: [{ label: "Usuarios", icon: "pi pi-fw pi-user", to: "/" }],
+            icon: "pi pi-fw pi-cog",
+            items: [
+                {
+                    label: "Usuarios",
+                    icon: "pi pi-fw pi-user",
+                    command: () => {
+                        window.location.hash = "/";
+                    },
+                },
+            ],
         },
         {
             label: "Plan estratégico",
-            icon: "pi pi-fw pi-sitemap",
+            icon: "pi pi-fw pi-star",
             items: [
-                { label: "Objetivos", icon: "pi pi-fw pi-compass", to: "/" },
-                { label: "Ejes", icon: "pi pi-fw pi-arrows-h", to: "/" },
-                { label: "Resultados", icon: "pi pi-fw pi-arrow-circle-down", to: "/" },
-                { label: "Acciones", icon: "pi pi-fw pi-book", to: "/" },
-                { label: "Seguimientos", icon: "pi pi-fw pi-check-circle", to: "/" },
+                {
+                    label: "Objetivos",
+                    icon: "pi pi-fw pi-compass",
+                    command: () => {
+                        window.location.hash = "/";
+                    },
+                },
+                {
+                    label: "Ejes",
+                    icon: "pi pi-fw pi-arrows-h",
+                    command: () => {
+                        window.location.hash = "/";
+                    },
+                },
+                {
+                    label: "Resultados",
+                    icon: "pi pi-fw pi-arrow-circle-down",
+                    command: () => {
+                        window.location.hash = "/";
+                    },
+                },
+                {
+                    label: "Acciones",
+                    icon: "pi pi-fw pi-book",
+                    command: () => {
+                        window.location.hash = "/";
+                    },
+                },
+                {
+                    label: "Seguimientos",
+                    icon: "pi pi-fw pi-check-circle",
+                    command: () => {
+                        window.location.hash = "/";
+                    },
+                },
             ],
         },
         {
             label: "Catálogos",
-            icon: "pi pi-fw pi-sitemap",
+            icon: "pi pi-fw pi-tags",
             items: [
-                { label: "Años", icon: "pi pi-fw pi-calendar", to: "/" },
-                { label: "Meses", icon: "pi pi-fw pi-calendar-plus", to: "/" },
-                { label: "Financiamientos", icon: "pi pi-fw pi-dollar", to: "/" },
-                { label: "Indicadores", icon: "pi pi-fw pi-chart-bar", to: "/" },
-                { label: "Lineas de trabajo", icon: "pi pi-fw pi-arrows-v", to: "/" },
-                { label: "Organizaciones", icon: "pi pi-fw pi-building", to: "/organizaciones" },
-                { label: "Periodos", icon: "pi pi-fw pi-clock", to: "/" },
-                { label: "Tipos de indicador", icon: "pi pi-fw pi-chart-line", to: "/" },
-                { label: "Tipos de objetivo", icon: "pi pi-fw pi-list", to: "/" },
-                { label: "Unidades de medida", icon: "pi pi-fw pi-filter-slash", to: "/" },
-                { label: "Unidades organizativas", icon: "pi pi-fw pi-clone", to: "/" },
-                { label: "Unidades presupuestarias", icon: "pi pi-fw pi-money-bill", to: "/" },
+                {
+                    label: "Años",
+                    icon: "pi pi-fw pi-calendar",
+                    command: () => {
+                        window.location.hash = "/";
+                    },
+                },
+                {
+                    label: "Meses",
+                    icon: "pi pi-fw pi-calendar-plus",
+                    command: () => {
+                        window.location.hash = "/";
+                    },
+                },
+                {
+                    label: "Financiamientos",
+                    icon: "pi pi-fw pi-dollar",
+                    command: () => {
+                        window.location.hash = "/";
+                    },
+                },
+                {
+                    label: "Indicadores",
+                    icon: "pi pi-fw pi-chart-bar",
+                    command: () => {
+                        window.location.hash = "/";
+                    },
+                },
+                {
+                    label: "Lineas de trabajo",
+                    icon: "pi pi-fw pi-arrows-v",
+                    command: () => {
+                        window.location.hash = "/";
+                    },
+                },
+                {
+                    label: "Organizaciones",
+                    icon: "pi pi-fw pi-building",
+                    command: () => {
+                        window.location.hash = "/organizaciones";
+                    },
+                },
+                {
+                    label: "Periodos",
+                    icon: "pi pi-fw pi-clock",
+                    command: () => {
+                        window.location.hash = "/";
+                    },
+                },
+                {
+                    label: "Tipos de indicador",
+                    icon: "pi pi-fw pi-chart-line",
+                    command: () => {
+                        window.location.hash = "/";
+                    },
+                },
+                {
+                    label: "Tipos de objetivo",
+                    icon: "pi pi-fw pi-list",
+                    command: () => {
+                        window.location.hash = "/tipos-objetivo";
+                    },
+                },
+                {
+                    label: "Unidades de medida",
+                    icon: "pi pi-fw pi-filter-slash",
+                    command: () => {
+                        window.location.hash = "/";
+                    },
+                },
+                {
+                    label: "Unidades organizativas",
+                    icon: "pi pi-fw pi-clone",
+                    command: () => {
+                        window.location.hash = "/";
+                    },
+                },
+                {
+                    label: "Unidades presupuestarias",
+                    icon: "pi pi-fw pi-money-bill",
+                    command: () => {
+                        window.location.hash = "/";
+                    },
+                },
             ],
         },
     ];
@@ -219,16 +333,19 @@ const App = () => {
             <AppTopbar onToggleMenuClick={onToggleMenuClick} mobileTopbarMenuActive={mobileTopbarMenuActive} onMobileTopbarMenuClick={onMobileTopbarMenuClick} onMobileSubTopbarMenuClick={onMobileSubTopbarMenuClick} onClickLogoutUser={onClickLogoutUser} />
 
             <div className="layout-sidebar" onClick={onSidebarClick}>
-                <AppMenu model={menu} onMenuItemClick={onMenuItemClick} />
+                <div className="layout-menu-container">
+                    <PanelMenu model={items} style={{ width: "auto" }} />
+                </div>
             </div>
 
             <div className="layout-main-container">
-                {token.roles.map((rol, index) => (
+                {/* {token.roles.map((rol, index) => (
                     <p key={index}>{rol}</p>
-                ))}
+                ))} */}
                 <div className="layout-main">
                     <Route path="/" exact render={() => <Dashboard colorMode={layoutColorMode} location={location} />} />
                     <Route path="/organizaciones" component={CrudOrganizaciones} />
+                    <Route path="/tipos-objetivo" component={CrudTiposObjetivo} />
                 </div>
 
                 <AppFooter />
