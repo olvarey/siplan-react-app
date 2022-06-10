@@ -20,10 +20,14 @@ import "./assets/demo/flags/flags.css";
 import "./assets/demo/Demos.scss";
 import "./assets/layout/layout.scss";
 import "./App.scss";
-import CrudOrganizaciones from "./pages/CrudOrganizaciones";
+
 import Login from "./components/Login";
 import useToken from "./components/hooks/useToken";
+import CrudOrganizaciones from "./pages/CrudOrganizaciones";
 import CrudTiposObjetivo from "./pages/CrudTiposObjetivo";
+import CrudTiposIndicador from "./pages/CrudTiposIndicador";
+import CrudUnidadesMedida from "./pages/CrudUnidadesMedida";
+import CrudUnidadesOrganizativas from "./pages/CrudUnidadesOrganizativas";
 
 const App = () => {
     const [layoutMode, setLayoutMode] = useState("static");
@@ -159,6 +163,13 @@ const App = () => {
             icon: "pi pi-fw pi-cog",
             items: [
                 {
+                    label: "Organizaciones",
+                    icon: "pi pi-fw pi-building",
+                    command: () => {
+                        window.location.hash = "/organizaciones";
+                    },
+                },
+                {
                     label: "Usuarios",
                     icon: "pi pi-fw pi-user",
                     command: () => {
@@ -248,13 +259,6 @@ const App = () => {
                     },
                 },
                 {
-                    label: "Organizaciones",
-                    icon: "pi pi-fw pi-building",
-                    command: () => {
-                        window.location.hash = "/organizaciones";
-                    },
-                },
-                {
                     label: "Periodos",
                     icon: "pi pi-fw pi-clock",
                     command: () => {
@@ -265,7 +269,7 @@ const App = () => {
                     label: "Tipos de indicador",
                     icon: "pi pi-fw pi-chart-line",
                     command: () => {
-                        window.location.hash = "/";
+                        window.location.hash = "/tipos-indicador";
                     },
                 },
                 {
@@ -279,14 +283,14 @@ const App = () => {
                     label: "Unidades de medida",
                     icon: "pi pi-fw pi-filter-slash",
                     command: () => {
-                        window.location.hash = "/";
+                        window.location.hash = "/unidades-medida";
                     },
                 },
                 {
                     label: "Unidades organizativas",
                     icon: "pi pi-fw pi-clone",
                     command: () => {
-                        window.location.hash = "/";
+                        window.location.hash = "/unidades-organizativas";
                     },
                 },
                 {
@@ -346,6 +350,9 @@ const App = () => {
                     <Route path="/" exact render={() => <Dashboard colorMode={layoutColorMode} location={location} />} />
                     <Route path="/organizaciones" component={CrudOrganizaciones} />
                     <Route path="/tipos-objetivo" component={CrudTiposObjetivo} />
+                    <Route path="/tipos-indicador" component={CrudTiposIndicador} />
+                    <Route path="/unidades-medida" component={CrudUnidadesMedida} />
+                    <Route path="/unidades-organizativas" component={CrudUnidadesOrganizativas} />
                 </div>
 
                 <AppFooter />

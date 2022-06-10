@@ -9,7 +9,7 @@ import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
 import { TipoObjetivoService } from "../service/TipoObjetivoService";
 
-const CrudTiposObjetivos = () => {
+const CrudTiposObjetivo = () => {
     let emptyTipoObjetivo = {
         idTipoObjetivo: null,
         nombreTipoObjetivo: "",
@@ -273,4 +273,4 @@ const comparisonFn = function (prevProps, nextProps) {
     return prevProps.location.pathname === nextProps.location.pathname;
 };
 
-export default React.memo(CrudTiposObjetivos, comparisonFn);
+export default React.memo(CrudTiposObjetivo, comparisonFn);
