@@ -17,6 +17,7 @@ export class UnidadOrganizativaService {
     }
 
     async saveUnidadOrganizativa(data, token) {
+        console.log(data);
         let config = {
             method: "post",
             url: api,

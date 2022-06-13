@@ -7,7 +7,9 @@ import { Button } from "primereact/button";
 import { Toolbar } from "primereact/toolbar";
 import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
+import { Dropdown } from "primereact/dropdown";
 import { UnidadOrganizativaService } from "../service/UnidadOrganizativaService";
+import { OrganizacionService } from "../service/OrganizacionService";
 
 const CrudUnidadesOrganizativas = () => {
     let emptyUnidadOrganizativa = {
@@ -28,6 +30,8 @@ const CrudUnidadesOrganizativas = () => {
     const [selectedUnidadOrganizativa, setSelectedUnidadOrganizativa] = useState(null);
     const [submitted, setSubmitted] = useState(false);
     const [globalFilter, setGlobalFilter] = useState(null);
+    //Catalogs
+    const [organizaciones, setOrganizaciones] = useState(null);
 
     const toast = useRef(null);
     const dt = useRef(null);
@@ -46,11 +50,24 @@ const CrudUnidadesOrganizativas = () => {
             .then((res) => {
                 if (res.status === 200) {
                     setUnidadesOrganizativas(res.data);
-                    toast.current.show({ severity: "success", summary: "Éxito", detail: "Unidades organizativas cargadas con éxito", life: 3000 });
+                    //toast.current.show({ severity: "success", summary: "Éxito", detail: "Unidades organizativas cargadas con éxito", life: 3000 });
                 }
             })
             .catch((err) => {
                 toast.current.show({ severity: "error", summary: "Falló", detail: "Unidades organizativas no han podido ser cargadas.", life: 3000 });
+            });
+
+        const organizacionService = new OrganizacionService();
+        organizacionService
+            .getOrganizaciones(fetchToken())
+            .then((res) => {
+                if (res.status === 200) {
+                    setOrganizaciones(res.data);
+                    toast.current.show({ severity: "success", summary: "Éxito", detail: "Organizaciones cargadas con éxito", life: 3000 });
+                }
+            })
+            .catch((err) => {
+                toast.current.show({ severity: "error", summary: "Falló", detail: "Organizaciones no han podido ser cargadas.", life: 3000 });
             });
     }, []);
 
@@ -171,6 +188,16 @@ const CrudUnidadesOrganizativas = () => {
         setUnidadOrganizativa(_unidad_organizativa);
     };
 
+    const onOrganizacionChange = (e) => {
+        let _unidad_organizativa = { ...unidadOrganizativa };
+        setUnidadOrganizativa({ ..._unidad_organizativa, organizacion: { ..._unidad_organizativa.organizacion, [e.target.name]: e.target.value } });
+    };
+
+    const onUnidadSuperiorChange = (e) => {
+        let _unidad_organizativa = { ...unidadOrganizativa };
+        setUnidadOrganizativa({ ..._unidad_organizativa, unidadSuperior: { ..._unidad_organizativa.unidadSuperior, [e.target.name]: e.target.value } });
+    };
+
     const leftToolbarTemplate = () => {
         return (
             <React.Fragment>
@@ -255,15 +282,49 @@ const CrudUnidadesOrganizativas = () => {
                     </DataTable>
 
                     <Dialog visible={showItemDlg} style={{ width: "450px" }} header="Detalle de unidad organizativa" modal className="p-fluid" footer={unidadOrganizativaDialogFooter} onHide={hideDialog}>
+                        {JSON.stringify(unidadOrganizativa)}
+                        <div className="field">
+                            <label htmlFor="idOrganizacion">Organización</label>
+                            <Dropdown
+                                id="idOrganizacion"
+                                name="idOrganizacion"
+                                value={unidadOrganizativa.organizacion.idOrganizacion}
+                                onChange={onOrganizacionChange}
+                                options={organizaciones}
+                                optionLabel="nombreOrganizacion"
+                                optionValue="idOrganizacion"
+                                placeholder="Selecccione una opción"
+                                required
+                                autoFocus
+                                className={classNames({ "p-invalid": submitted && !unidadOrganizativa.idOrganizacion })}
+                            />
+                            {submitted && !unidadOrganizativa.idOrganizacion && <small className="p-invalid">Organización es requerida.</small>}
+                        </div>
                         <div className="field">
                             <label htmlFor="nombreUnidadOrganizativa">Nombre</label>
-                            <InputText id="nombreUnidadOrganizativa" value={unidadOrganizativa.nombreUnidadOrganizativa} onChange={(e) => onInputChange(e, "nombreUnidadOrganizativa")} required autoFocus className={classNames({ "p-invalid": submitted && !unidadOrganizativa.nombreUnidadOrganizativa })} />
+                            <InputText
+                                id="nombreUnidadOrganizativa"
+                                value={unidadOrganizativa.nombreUnidadOrganizativa}
+                                onChange={(e) => onInputChange(e, "nombreUnidadOrganizativa")}
+                                required
+                                autoFocus
+                                className={classNames({ "p-invalid": submitted && !unidadOrganizativa.nombreUnidadOrganizativa })}
+                            />
                             {submitted && !unidadOrganizativa.nombreUnidadOrganizativa && <small className="p-invalid">Nombre es requerido.</small>}
                         </div>
                         <div className="field">
-                            <label htmlFor="organizacion">Organización</label>
-                            <InputText id="organizacion" value={unidadOrganizativa.nombreUnidadOrganizativa} onChange={(e) => onInputChange(e, "nombreUnidadOrganizativa")} required autoFocus className={classNames({ "p-invalid": submitted && !unidadOrganizativa.nombreUnidadOrganizativa })} />
-                            {submitted && !unidadOrganizativa.nombreUnidadOrganizativa && <small className="p-invalid">Nombre es requerido.</small>}
+                            <label htmlFor="idUnidadSuperior">Unidad organizativa superior</label>
+                            <Dropdown
+                                id="idUnidadOrganizativa"
+                                name="idUnidadOrganizativa"
+                                value={unidadOrganizativa.unidadSuperior?.idUnidadOrganizativa}
+                                onChange={onUnidadSuperiorChange}
+                                options={unidadesOrganizativas}
+                                optionLabel="nombreUnidadOrganizativa"
+                                optionValue="idUnidadOrganizativa"
+                                placeholder="Selecccione una opción"
+                                autoFocus
+                            />
                         </div>
                     </Dialog>
 
