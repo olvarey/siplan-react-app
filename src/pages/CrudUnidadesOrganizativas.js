@@ -63,7 +63,7 @@ const CrudUnidadesOrganizativas = () => {
             .then((res) => {
                 if (res.status === 200) {
                     setOrganizaciones(res.data);
-                    toast.current.show({ severity: "success", summary: "Éxito", detail: "Organizaciones cargadas con éxito", life: 3000 });
+                    //toast.current.show({ severity: "success", summary: "Éxito", detail: "Organizaciones cargadas con éxito", life: 3000 });
                 }
             })
             .catch((err) => {
@@ -104,9 +104,10 @@ const CrudUnidadesOrganizativas = () => {
                     .saveUnidadOrganizativa(_unidad_organizativa, fetchToken())
                     .then((res) => {
                         if (res.status === 200) {
-                            _unidad_organizativa = { ...res.data };
-                            _unidades_organizativas[index] = { ..._unidad_organizativa };
-                            setUnidadesOrganizativas(_unidades_organizativas);
+                            window.location.reload();
+                            // _unidad_organizativa = { ...res.data };
+                            // _unidades_organizativas[index] = { ..._unidad_organizativa };
+                            // setUnidadesOrganizativas(_unidades_organizativas);
                             setShowItemDlg(false);
                             setUnidadOrganizativa(emptyUnidadOrganizativa);
                             toast.current.show({ severity: "success", summary: "Éxito", detail: "Unidad organizativa actualizada.", life: 3000 });
@@ -118,13 +119,20 @@ const CrudUnidadesOrganizativas = () => {
             }
             //CREATE
             else {
+                //Remove property when unidadSuperior not selected (not required)
+                if (_unidad_organizativa.unidadSuperior.idUnidadOrganizativa === null) {
+                    delete _unidad_organizativa.unidadSuperior;
+                }
+                console.log(_unidad_organizativa);
                 unidadOrganizativaService
                     .saveUnidadOrganizativa(_unidad_organizativa, fetchToken())
                     .then((res) => {
                         if (res.status === 200) {
-                            _unidad_organizativa = { ...res.data };
-                            _unidades_organizativas.push(_unidad_organizativa);
-                            setUnidadesOrganizativas(_unidades_organizativas);
+                            window.location.reload();
+                            // _unidad_organizativa = { ...res.data };
+                            // console.log(_unidad_organizativa);
+                            // _unidades_organizativas.push(_unidad_organizativa);
+                            // setUnidadesOrganizativas(_unidades_organizativas);
                             setShowItemDlg(false);
                             setUnidadOrganizativa(emptyUnidadOrganizativa);
                             toast.current.show({ severity: "success", summary: "Éxito", detail: "Unidad organizativa creada.", life: 3000 });
@@ -282,7 +290,6 @@ const CrudUnidadesOrganizativas = () => {
                     </DataTable>
 
                     <Dialog visible={showItemDlg} style={{ width: "450px" }} header="Detalle de unidad organizativa" modal className="p-fluid" footer={unidadOrganizativaDialogFooter} onHide={hideDialog}>
-                        {JSON.stringify(unidadOrganizativa)}
                         <div className="field">
                             <label htmlFor="idOrganizacion">Organización</label>
                             <Dropdown
@@ -296,9 +303,9 @@ const CrudUnidadesOrganizativas = () => {
                                 placeholder="Selecccione una opción"
                                 required
                                 autoFocus
-                                className={classNames({ "p-invalid": submitted && !unidadOrganizativa.idOrganizacion })}
+                                className={classNames({ "p-invalid": submitted && !unidadOrganizativa.organizacion.idOrganizacion })}
                             />
-                            {submitted && !unidadOrganizativa.idOrganizacion && <small className="p-invalid">Organización es requerida.</small>}
+                            {submitted && !unidadOrganizativa.organizacion.idOrganizacion && <small className="p-invalid">Organización es requerida.</small>}
                         </div>
                         <div className="field">
                             <label htmlFor="nombreUnidadOrganizativa">Nombre</label>
