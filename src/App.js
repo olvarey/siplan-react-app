@@ -28,6 +28,7 @@ import CrudTiposObjetivo from "./pages/CrudTiposObjetivo";
 import CrudTiposIndicador from "./pages/CrudTiposIndicador";
 import CrudUnidadesMedida from "./pages/CrudUnidadesMedida";
 import CrudUnidadesOrganizativas from "./pages/CrudUnidadesOrganizativas";
+import CrudIndicadores from "./pages/CrudIndicadores";
 
 const App = () => {
     const [layoutMode, setLayoutMode] = useState("static");
@@ -248,7 +249,7 @@ const App = () => {
                     label: "Indicadores",
                     icon: "pi pi-fw pi-chart-bar",
                     command: () => {
-                        window.location.hash = "/";
+                        window.location.hash = "/indicadores";
                     },
                 },
                 {
@@ -353,6 +354,7 @@ const App = () => {
                     <Route path="/tipos-indicador" component={CrudTiposIndicador} />
                     <Route path="/unidades-medida" component={CrudUnidadesMedida} />
                     <Route path="/unidades-organizativas" component={CrudUnidadesOrganizativas} />
+                    <Route path="/indicadores" component={CrudIndicadores} />
                 </div>
 
                 <AppFooter />
