@@ -29,6 +29,7 @@ import CrudTiposIndicador from "./pages/CrudTiposIndicador";
 import CrudUnidadesMedida from "./pages/CrudUnidadesMedida";
 import CrudUnidadesOrganizativas from "./pages/CrudUnidadesOrganizativas";
 import CrudIndicadores from "./pages/CrudIndicadores";
+import CrudPeriodos from "./pages/CrudPeriodos";
 
 const App = () => {
     const [layoutMode, setLayoutMode] = useState("static");
@@ -263,7 +264,7 @@ const App = () => {
                     label: "Periodos",
                     icon: "pi pi-fw pi-clock",
                     command: () => {
-                        window.location.hash = "/";
+                        window.location.hash = "/periodos";
                     },
                 },
                 {
@@ -355,6 +356,7 @@ const App = () => {
                     <Route path="/unidades-medida" component={CrudUnidadesMedida} />
                     <Route path="/unidades-organizativas" component={CrudUnidadesOrganizativas} />
                     <Route path="/indicadores" component={CrudIndicadores} />
+                    <Route path="/periodos" component={CrudPeriodos} />
                 </div>
 
                 <AppFooter />

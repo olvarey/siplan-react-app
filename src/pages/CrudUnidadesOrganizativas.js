@@ -95,11 +95,11 @@ const CrudUnidadesOrganizativas = () => {
         setSubmitted(true);
 
         if (unidadOrganizativa.nombreUnidadOrganizativa.trim()) {
-            let _unidades_organizativas = [...unidadesOrganizativas];
+            //let _unidades_organizativas = [...unidadesOrganizativas];
             let _unidad_organizativa = { ...unidadOrganizativa };
             //UPDATE
             if (unidadOrganizativa.idUnidadOrganizativa) {
-                const index = findIndexById(unidadOrganizativa.idUnidadOrganizativa);
+                //const index = findIndexById(unidadOrganizativa.idUnidadOrganizativa);
                 unidadOrganizativaService
                     .saveUnidadOrganizativa(_unidad_organizativa, fetchToken())
                     .then((res) => {
@@ -173,16 +173,16 @@ const CrudUnidadesOrganizativas = () => {
             });
     };
 
-    const findIndexById = (id) => {
-        let index = -1;
-        for (let i = 0; i < unidadesOrganizativas.length; i++) {
-            if (unidadesOrganizativas[i].idUnidadOrganizativa === id) {
-                index = i;
-                break;
-            }
-        }
-        return index;
-    };
+    // const findIndexById = (id) => {
+    //     let index = -1;
+    //     for (let i = 0; i < unidadesOrganizativas.length; i++) {
+    //         if (unidadesOrganizativas[i].idUnidadOrganizativa === id) {
+    //             index = i;
+    //             break;
+    //         }
+    //     }
+    //     return index;
+    // };
 
     const exportCSV = () => {
         dt.current.exportCSV();

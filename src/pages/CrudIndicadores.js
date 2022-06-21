@@ -108,11 +108,11 @@ const CrudIndicadores = () => {
         setSubmitted(true);
 
         if (indicador.nombreIndicador.trim()) {
-            let _indicadores = [...indicadores];
+            //let _indicadores = [...indicadores];
             let _indicador = { ...indicador };
             //UPDATE
             if (indicador.idIndicador) {
-                const index = findIndexById(indicador.idIndicador);
+                //const index = findIndexById(indicador.idIndicador);
                 indicadorService
                     .saveIndicador(_indicador, fetchToken())
                     .then((res) => {
@@ -180,16 +180,16 @@ const CrudIndicadores = () => {
             });
     };
 
-    const findIndexById = (id) => {
-        let index = -1;
-        for (let i = 0; i < indicadores.length; i++) {
-            if (indicadores[i].idIndicador === id) {
-                index = i;
-                break;
-            }
-        }
-        return index;
-    };
+    // const findIndexById = (id) => {
+    //     let index = -1;
+    //     for (let i = 0; i < indicadores.length; i++) {
+    //         if (indicadores[i].idIndicador === id) {
+    //             index = i;
+    //             break;
+    //         }
+    //     }
+    //     return index;
+    // };
 
     const exportCSV = () => {
         dt.current.exportCSV();
