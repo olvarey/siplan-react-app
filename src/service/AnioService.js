@@ -1,9 +1,9 @@
 import axios from "axios";
 
-const api = "http://localhost:8080/api-siplan/v1/periodos";
+const api = "http://localhost:8080/api-siplan/v1/anios";
 
-export class PeriodoService {
-    async getPeriodos(token) {
+export class AnioService {
+    async getAnios(token) {
         let config = {
             method: "get",
             url: api,
@@ -16,7 +16,7 @@ export class PeriodoService {
         return axios(config);
     }
 
-    async savePeriodo(data, token) {
+    async saveAnio(data, token) {
         let config = {
             method: "post",
             url: api,
@@ -30,7 +30,7 @@ export class PeriodoService {
         return axios(config);
     }
 
-    deletePeriodo(data, token) {
+    deleteAnio(data, token) {
         let config = {
             method: "delete",
             url: api,

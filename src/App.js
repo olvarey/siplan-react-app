@@ -5,7 +5,6 @@ import { CSSTransition } from "react-transition-group";
 
 import { AppTopbar } from "./AppTopbar";
 import { AppFooter } from "./AppFooter";
-
 import Dashboard from "./components/Dashboard";
 
 import PrimeReact from "primereact/api";
@@ -29,7 +28,11 @@ import CrudTiposIndicador from "./pages/CrudTiposIndicador";
 import CrudUnidadesMedida from "./pages/CrudUnidadesMedida";
 import CrudUnidadesOrganizativas from "./pages/CrudUnidadesOrganizativas";
 import CrudIndicadores from "./pages/CrudIndicadores";
-import CrudPeriodos from "./pages/CrudPeriodos";
+import CrudAnios from "./pages/CrudAnios";
+import CrudUnidadesPresupuestarias from "./pages/CrudUnidadesPresupuestarias";
+import CrudFinanciamientos from "./pages/CrudFinanciamientos";
+import CrudLineasTrabajo from "./pages/CrudLineasTrabajo";
+import CrudMeses from "./pages/CrudMeses";
 
 const App = () => {
     const [layoutMode, setLayoutMode] = useState("static");
@@ -172,6 +175,13 @@ const App = () => {
                     },
                 },
                 {
+                    label: "Unidades organizativas",
+                    icon: "pi pi-fw pi-clone",
+                    command: () => {
+                        window.location.hash = "/unidades-organizativas";
+                    },
+                },
+                {
                     label: "Usuarios",
                     icon: "pi pi-fw pi-user",
                     command: () => {
@@ -229,21 +239,21 @@ const App = () => {
                     label: "Años",
                     icon: "pi pi-fw pi-calendar",
                     command: () => {
-                        window.location.hash = "/";
+                        window.location.hash = "/anios";
                     },
                 },
                 {
                     label: "Meses",
                     icon: "pi pi-fw pi-calendar-plus",
                     command: () => {
-                        window.location.hash = "/";
+                        window.location.hash = "/meses";
                     },
                 },
                 {
                     label: "Financiamientos",
                     icon: "pi pi-fw pi-dollar",
                     command: () => {
-                        window.location.hash = "/";
+                        window.location.hash = "/financiamientos";
                     },
                 },
                 {
@@ -257,14 +267,7 @@ const App = () => {
                     label: "Lineas de trabajo",
                     icon: "pi pi-fw pi-arrows-v",
                     command: () => {
-                        window.location.hash = "/";
-                    },
-                },
-                {
-                    label: "Periodos",
-                    icon: "pi pi-fw pi-clock",
-                    command: () => {
-                        window.location.hash = "/periodos";
+                        window.location.hash = "/lineas-trabajo";
                     },
                 },
                 {
@@ -289,17 +292,10 @@ const App = () => {
                     },
                 },
                 {
-                    label: "Unidades organizativas",
-                    icon: "pi pi-fw pi-clone",
-                    command: () => {
-                        window.location.hash = "/unidades-organizativas";
-                    },
-                },
-                {
                     label: "Unidades presupuestarias",
                     icon: "pi pi-fw pi-money-bill",
                     command: () => {
-                        window.location.hash = "/";
+                        window.location.hash = "/unidades-presupuestarias";
                     },
                 },
             ],
@@ -356,7 +352,11 @@ const App = () => {
                     <Route path="/unidades-medida" component={CrudUnidadesMedida} />
                     <Route path="/unidades-organizativas" component={CrudUnidadesOrganizativas} />
                     <Route path="/indicadores" component={CrudIndicadores} />
-                    <Route path="/periodos" component={CrudPeriodos} />
+                    <Route path="/anios" component={CrudAnios} />
+                    <Route path="/unidades-presupuestarias" component={CrudUnidadesPresupuestarias} />
+                    <Route path="/financiamientos" component={CrudFinanciamientos} />
+                    <Route path="/lineas-trabajo" component={CrudLineasTrabajo} />
+                    <Route path="/meses" component={CrudMeses} />
                 </div>
 
                 <AppFooter />
