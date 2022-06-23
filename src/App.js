@@ -33,6 +33,10 @@ import CrudUnidadesPresupuestarias from "./pages/CrudUnidadesPresupuestarias";
 import CrudFinanciamientos from "./pages/CrudFinanciamientos";
 import CrudLineasTrabajo from "./pages/CrudLineasTrabajo";
 import CrudMeses from "./pages/CrudMeses";
+import CrudUsuarios from "./pages/CrudUsuarios";
+import CrudObjetivos from "./pages/CrudObjetivos";
+import CrudEjes from "./pages/CrudEjes";
+import CrudResultados from "./pages/CrudResultados";
 
 const App = () => {
     const [layoutMode, setLayoutMode] = useState("static");
@@ -185,34 +189,34 @@ const App = () => {
                     label: "Usuarios",
                     icon: "pi pi-fw pi-user",
                     command: () => {
-                        window.location.hash = "/";
+                        window.location.hash = "/usuarios";
                     },
                 },
             ],
         },
         {
-            label: "Plan estratégico",
+            label: "Planificación",
             icon: "pi pi-fw pi-star",
             items: [
                 {
                     label: "Objetivos",
                     icon: "pi pi-fw pi-compass",
                     command: () => {
-                        window.location.hash = "/";
+                        window.location.hash = "/objetivos";
                     },
                 },
                 {
                     label: "Ejes",
                     icon: "pi pi-fw pi-arrows-h",
                     command: () => {
-                        window.location.hash = "/";
+                        window.location.hash = "/ejes";
                     },
                 },
                 {
                     label: "Resultados",
                     icon: "pi pi-fw pi-arrow-circle-down",
                     command: () => {
-                        window.location.hash = "/";
+                        window.location.hash = "/resultados";
                     },
                 },
                 {
@@ -357,6 +361,10 @@ const App = () => {
                     <Route path="/financiamientos" component={CrudFinanciamientos} />
                     <Route path="/lineas-trabajo" component={CrudLineasTrabajo} />
                     <Route path="/meses" component={CrudMeses} />
+                    <Route path="/usuarios" component={CrudUsuarios} />
+                    <Route path="/objetivos" component={CrudObjetivos} />
+                    <Route path="/ejes" component={CrudEjes} />
+                    <Route path="/resultados" component={CrudResultados} />
                 </div>
 
                 <AppFooter />

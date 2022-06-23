@@ -299,11 +299,6 @@ const CrudIndicadores = () => {
                     <Dialog visible={indicadorDialog} style={{ width: "450px" }} header="Detalle de indicador" modal className="p-fluid" footer={indicadorDialogFooter} onHide={hideDialog}>
                         {/* {JSON.stringify(indicador)} */}
                         <div className="field">
-                            <label htmlFor="nombreIndicador">Nombre</label>
-                            <InputText id="nombreIndicador" value={indicador.nombreIndicador} onChange={(e) => onInputChange(e, "nombreIndicador")} required autoFocus className={classNames({ "p-invalid": submitted && !indicador.nombreIndicador })} />
-                            {submitted && !indicador.nombreIndicador && <small className="p-invalid">Nombre es requerido.</small>}
-                        </div>
-                        <div className="field">
                             <label htmlFor="idTipoIndicador">Tipo indicador</label>
                             <Dropdown
                                 id="idTipoIndicador"
@@ -336,6 +331,11 @@ const CrudIndicadores = () => {
                                 className={classNames({ "p-invalid": submitted && !indicador.unidadMedida.idUnidadMedida })}
                             />
                             {submitted && !indicador.unidadMedida.idUnidadMedida && <small className="p-invalid">Unidad de medida es requerida.</small>}
+                        </div>
+                        <div className="field">
+                            <label htmlFor="nombreIndicador">Nombre</label>
+                            <InputText id="nombreIndicador" value={indicador.nombreIndicador} onChange={(e) => onInputChange(e, "nombreIndicador")} required autoFocus className={classNames({ "p-invalid": submitted && !indicador.nombreIndicador })} />
+                            {submitted && !indicador.nombreIndicador && <small className="p-invalid">Nombre es requerido.</small>}
                         </div>
                     </Dialog>
 
