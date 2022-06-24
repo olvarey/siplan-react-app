@@ -8,39 +8,40 @@ import { Toolbar } from "primereact/toolbar";
 import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
 import { Dropdown } from "primereact/dropdown";
+import { InputNumber } from "primereact/inputnumber";
+import { AccionService } from "../service/AccionService";
+import { FinanciamientoService } from "../service/FinanciamientoService";
+import { LineaTrabajoService } from "../service/LineaTrabajoService";
 import { ResultadoService } from "../service/ResultadoService";
-import { EjeService } from "../service/EjeService";
-import { IndicadorService } from "../service/IndicadorService";
-import { AnioService } from "../service/AnioService";
 
 const CrudAcciones = () => {
     let emptyAccion = {
         idAccion: null,
         nombreAccion: "",
         descripcionAccion: "",
-        presupuestoAsignadoAccion: 0.00,
+        presupuestoAsignadoAccion: 0.0,
         nombreResponsableAccion: "",
         numeroAccionesAnualesAccion: 0,
         observacion: "",
-        eje: {
-            idEje: null,
+        financiamiento: {
+            idFinanciamiento: null,
         },
-        indicador: {
-            idIndicador: null,
+        lineaTrabajo: {
+            idLineaTrabajo: null,
         },
-        anio: {
-            idAnio: null,
+        resultado: {
+            idResultado: null,
         },
     };
 
+    const [acciones, setAcciones] = useState(null);
+    const [financiamientos, setFinanciamientos] = useState(null);
+    const [lineasTrabajo, setLineasTrabajo] = useState(null);
     const [resultados, setResultados] = useState(null);
-    const [ejes, setEjes] = useState(null);
-    const [indicadores, setIndicadores] = useState(null);
-    const [anios, setAnios] = useState(null);
-    const [resultadoDlg, setResultadoDlg] = useState(false);
-    const [deleteResultadoDlg, setDeleteResultadoDlg] = useState(false);
-    const [resultado, setResultado] = useState(emptyAccion);
-    const [selectedResultado, setSelectedResultado] = useState(null);
+    const [accionDlg, setAccionDlg] = useState(false);
+    const [deleteAccionDlg, setDeleteAccionDlg] = useState(false);
+    const [accion, setAccion] = useState(emptyAccion);
+    const [selectedAccion, setSelectedAccion] = useState(null);
     const [submitted, setSubmitted] = useState(false);
     const [globalFilter, setGlobalFilter] = useState(null);
     const toast = useRef(null);
@@ -54,56 +55,56 @@ const CrudAcciones = () => {
     };
 
     useEffect(() => {
+        const accionService = new AccionService();
+        accionService
+            .getAcciones(fetchToken())
+            .then((res) => {
+                if (res.status === 200) {
+                    setAcciones(res.data);
+                    toast.current.show({ severity: "success", summary: "Éxito", detail: "Acciones cargadas con éxito", life: 3000 });
+                }
+            })
+            .catch((err) => {
+                toast.current.show({ severity: "error", summary: "Falló", detail: "Acciones no han podido ser cargadas.", life: 3000 });
+            });
+
+        const financiamientoService = new FinanciamientoService();
+        financiamientoService
+            .getFinanciamientos(fetchToken())
+            .then((res) => {
+                if (res.status === 200) {
+                    setFinanciamientos(res.data);
+                    //toast.current.show({ severity: "success", summary: "Éxito", detail: "Tipos de accion cargados con éxito", life: 3000 });
+                }
+            })
+            .catch((err) => {
+                toast.current.show({ severity: "error", summary: "Falló", detail: "Financiamientos no han podido ser cargados.", life: 3000 });
+            });
+
+        const lineaTrabajoService = new LineaTrabajoService();
+        lineaTrabajoService
+            .getLineasTrabajo(fetchToken())
+            .then((res) => {
+                if (res.status === 200) {
+                    setLineasTrabajo(res.data);
+                    //toast.current.show({ severity: "success", summary: "Éxito", detail: "Unidades de medida cargadas con éxito", life: 3000 });
+                }
+            })
+            .catch((err) => {
+                toast.current.show({ severity: "error", summary: "Falló", detail: "Lineas de trabajo no han podido ser cargadas.", life: 3000 });
+            });
+
         const resultadoService = new ResultadoService();
         resultadoService
             .getResultados(fetchToken())
             .then((res) => {
                 if (res.status === 200) {
                     setResultados(res.data);
-                    toast.current.show({ severity: "success", summary: "Éxito", detail: "Resultados cargados con éxito", life: 3000 });
+                    //toast.current.show({ severity: "success", summary: "Éxito", detail: "Unidades de medida cargadas con éxito", life: 3000 });
                 }
             })
             .catch((err) => {
                 toast.current.show({ severity: "error", summary: "Falló", detail: "Resultados no han podido ser cargados.", life: 3000 });
-            });
-
-        const ejeService = new EjeService();
-        ejeService
-            .getEjes(fetchToken())
-            .then((res) => {
-                if (res.status === 200) {
-                    setEjes(res.data);
-                    //toast.current.show({ severity: "success", summary: "Éxito", detail: "Tipos de resultado cargados con éxito", life: 3000 });
-                }
-            })
-            .catch((err) => {
-                toast.current.show({ severity: "error", summary: "Falló", detail: "Ejes no han podido ser cargados.", life: 3000 });
-            });
-
-        const indicadorService = new IndicadorService();
-        indicadorService
-            .getIndicadores(fetchToken())
-            .then((res) => {
-                if (res.status === 200) {
-                    setIndicadores(res.data);
-                    //toast.current.show({ severity: "success", summary: "Éxito", detail: "Unidades de medida cargadas con éxito", life: 3000 });
-                }
-            })
-            .catch((err) => {
-                toast.current.show({ severity: "error", summary: "Falló", detail: "Indicadores no han podido ser cargados.", life: 3000 });
-            });
-
-        const anioService = new AnioService();
-        anioService
-            .getAnios(fetchToken())
-            .then((res) => {
-                if (res.status === 200) {
-                    setAnios(res.data);
-                    //toast.current.show({ severity: "success", summary: "Éxito", detail: "Unidades de medida cargadas con éxito", life: 3000 });
-                }
-            })
-            .catch((err) => {
-                toast.current.show({ severity: "error", summary: "Falló", detail: "Años no han podido ser cargados.", life: 3000 });
             });
     }, []);
 
@@ -112,101 +113,101 @@ const CrudAcciones = () => {
     // };
 
     const openNew = () => {
-        setResultado(emptyAccion);
+        setAccion(emptyAccion);
         setSubmitted(false);
-        setResultadoDlg(true);
+        setAccionDlg(true);
     };
 
     const hideDialog = () => {
         setSubmitted(false);
-        setResultadoDlg(false);
+        setAccionDlg(false);
     };
 
-    const hideDeleteResultadoDialog = () => {
-        setDeleteResultadoDlg(false);
+    const hideDeleteAccionDialog = () => {
+        setDeleteAccionDlg(false);
     };
 
-    const saveResultado = () => {
-        const resultadoService = new ResultadoService();
+    const saveAccion = () => {
+        const accionService = new AccionService();
         setSubmitted(true);
 
-        if (resultado.nombreAccion.trim()) {
-            //let _resultados = [...resultados];
-            let _resultado = { ...resultado };
+        if (accion.nombreAccion.trim()) {
+            //let _acciones = [...acciones];
+            let _accion = { ...accion };
             //UPDATE
-            if (resultado.idAccion) {
-                //const index = findIndexById(resultado.idAccion);
-                resultadoService
-                    .saveResultado(_resultado, fetchToken())
+            if (accion.idAccion) {
+                //const index = findIndexById(accion.idAccion);
+                accionService
+                    .saveAccion(_accion, fetchToken())
                     .then((res) => {
                         if (res.status === 200) {
                             window.location.reload();
-                            // _resultado = { ...res.data };
-                            // _resultados[index] = { ..._resultado };
-                            // setResultados(_resultados);
-                            setResultadoDlg(false);
-                            setResultado(emptyAccion);
-                            toast.current.show({ severity: "success", summary: "Éxito", detail: "Resultado actualizado", life: 3000 });
+                            // _accion = { ...res.data };
+                            // _acciones[index] = { ..._accion };
+                            // setAcciones(_acciones);
+                            setAccionDlg(false);
+                            setAccion(emptyAccion);
+                            toast.current.show({ severity: "success", summary: "Éxito", detail: "Acción actualizada", life: 3000 });
                         }
                     })
                     .catch((err) => {
-                        toast.current.show({ severity: "error", summary: "Falló", detail: "Resultado no ha podido ser actualizado.", life: 3000 });
+                        toast.current.show({ severity: "error", summary: "Falló", detail: "Acción no ha podido ser actualizada.", life: 3000 });
                     });
             }
             //CREATE
             else {
-                resultadoService
-                    .saveResultado(_resultado, fetchToken())
+                accionService
+                    .saveAccion(_accion, fetchToken())
                     .then((res) => {
                         if (res.status === 200) {
                             window.location.reload();
-                            // _resultado = { ...res.data };
-                            // _resultados.push(_resultado);
-                            // setResultados(_resultados);
-                            setResultadoDlg(false);
-                            setResultado(emptyAccion);
-                            toast.current.show({ severity: "success", summary: "Éxito", detail: "Resultado creado.", life: 3000 });
+                            // _accion = { ...res.data };
+                            // _acciones.push(_accion);
+                            // setAcciones(_acciones);
+                            setAccionDlg(false);
+                            setAccion(emptyAccion);
+                            toast.current.show({ severity: "success", summary: "Éxito", detail: "Acción creada.", life: 3000 });
                         }
                     })
                     .catch((err) => {
-                        toast.current.show({ severity: "error", summary: "Falló", detail: "Resultado no ha podido ser creado.", life: 3000 });
+                        toast.current.show({ severity: "error", summary: "Falló", detail: "Acción no ha podido ser creada.", life: 3000 });
                     });
             }
         }
     };
 
-    const editResultado = (resultado) => {
-        setResultado({ ...resultado });
-        setResultadoDlg(true);
+    const editAccion = (accion) => {
+        setAccion({ ...accion });
+        setAccionDlg(true);
     };
 
-    const confirmDeleteResultado = (resultado) => {
-        setResultado(resultado);
-        setDeleteResultadoDlg(true);
+    const confirmDeleteAccion = (accion) => {
+        setAccion(accion);
+        setDeleteAccionDlg(true);
     };
 
-    const deleteResultado = () => {
-        const resultadoService = new ResultadoService();
-        let _resultados = resultados.filter((val) => val.idAccion !== resultado.idAccion);
-        resultadoService
-            .deleteResultado(resultado, fetchToken())
+    const deleteAccion = () => {
+        const accionService = new AccionService();
+        let _acciones = acciones.filter((val) => val.idAccion !== accion.idAccion);
+        accionService
+            .deleteAccion(accion, fetchToken())
             .then((res) => {
                 if (res.status === 200) {
-                    setResultados(_resultados);
-                    setDeleteResultadoDlg(false);
-                    setResultado(emptyAccion);
-                    toast.current.show({ severity: "success", summary: "Éxito", detail: "Resultado borrado.", life: 3000 });
+                    setAcciones(_acciones);
+                    setDeleteAccionDlg(false);
+                    setAccion(emptyAccion);
+                    toast.current.show({ severity: "success", summary: "Éxito", detail: "Acción borrada.", life: 3000 });
                 }
             })
             .catch((err) => {
-                toast.current.show({ severity: "error", summary: "Falló", detail: "Resultado no ha podido ser borrado.", life: 3000 });
+                toast.current.show({ severity: "error", summary: "Falló", detail: "Acción no ha podido ser borrada.", life: 3000 });
             });
     };
 
     // const findIndexById = (id) => {
     //     let index = -1;
-    //     for (let i = 0; i < resultados.length; i++) {
-    //         if (resultados[i].idAccion === id) {
+    //     for (let i = 0; i < acciones.length; i++) {
+    //         if (acciones[i].idAccion === id) {
     //             index = i;
     //             break;
     //         }
@@ -220,25 +221,25 @@ const CrudAcciones = () => {
 
     const onInputChange = (e, name) => {
         const val = (e.target && e.target.value) || "";
-        let _resultado = { ...resultado };
-        _resultado[`${name}`] = val;
+        let _accion = { ...accion };
+        _accion[`${name}`] = val;
 
-        setResultado(_resultado);
+        setAccion(_accion);
     };
 
-    const onEjeChange = (e) => {
-        let _resultado = { ...resultado };
-        setResultado({ ..._resultado, eje: { ..._resultado.eje, [e.target.name]: e.target.value } });
+    const onFinanciamientoChange = (e) => {
+        let _accion = { ...accion };
+        setAccion({ ..._accion, financiamiento: { ..._accion.financiamiento, [e.target.name]: e.target.value } });
     };
 
-    const onIndicadorChange = (e) => {
-        let _resultado = { ...resultado };
-        setResultado({ ..._resultado, indicador: { ..._resultado.indicador, [e.target.name]: e.target.value } });
+    const onLineaTrabajoChange = (e) => {
+        let _accion = { ...accion };
+        setAccion({ ..._accion, lineaTrabajo: { ..._accion.lineaTrabajo, [e.target.name]: e.target.value } });
     };
 
-    const onAnioChange = (e) => {
-        let _resultado = { ...resultado };
-        setResultado({ ..._resultado, anio: { ..._resultado.anio, [e.target.name]: e.target.value } });
+    const onResultadoChange = (e) => {
+        let _accion = { ...accion };
+        setAccion({ ..._accion, resultado: { ..._accion.resultado, [e.target.name]: e.target.value } });
     };
 
     const leftToolbarTemplate = () => {
@@ -262,15 +263,15 @@ const CrudAcciones = () => {
     const actionBodyTemplate = (rowData) => {
         return (
             <div className="actions">
-                <Button icon="pi pi-pencil" className="p-button-rounded p-button-success mr-2" onClick={() => editResultado(rowData)} />
-                <Button icon="pi pi-trash" className="p-button-rounded p-button-warning mt-2" onClick={() => confirmDeleteResultado(rowData)} />
+                <Button icon="pi pi-pencil" className="p-button-rounded p-button-success mr-2" onClick={() => editAccion(rowData)} />
+                <Button icon="pi pi-trash" className="p-button-rounded p-button-warning mt-2" onClick={() => confirmDeleteAccion(rowData)} />
             </div>
         );
     };
 
     const header = (
         <div className="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
-            <h5 className="m-0">Administración de resultados</h5>
+            <h5 className="m-0">Administración de acciones</h5>
             <span className="block mt-2 md:mt-0 p-input-icon-left">
                 <i className="pi pi-search" />
                 <InputText type="search" onInput={(e) => setGlobalFilter(e.target.value)} placeholder="Búsqueda..." />
@@ -278,17 +279,17 @@ const CrudAcciones = () => {
         </div>
     );
 
-    const resultadoDlgFooter = (
+    const accionDlgFooter = (
         <>
             <Button label="Cancelar" icon="pi pi-times" className="p-button-text" onClick={hideDialog} />
-            <Button label="Guardar" icon="pi pi-check" className="p-button-text" onClick={saveResultado} />
+            <Button label="Guardar" icon="pi pi-check" className="p-button-text" onClick={saveAccion} />
         </>
     );
 
-    const deleteResultadoDlgFooter = (
+    const deleteAccionDlgFooter = (
         <>
-            <Button label="No" icon="pi pi-times" className="p-button-text" onClick={hideDeleteResultadoDialog} />
-            <Button label="Si" icon="pi pi-check" className="p-button-text" onClick={deleteResultado} />
+            <Button label="No" icon="pi pi-times" className="p-button-text" onClick={hideDeleteAccionDialog} />
+            <Button label="Si" icon="pi pi-check" className="p-button-text" onClick={deleteAccion} />
         </>
     );
 
@@ -301,94 +302,122 @@ const CrudAcciones = () => {
 
                     <DataTable
                         ref={dt}
-                        value={resultados}
-                        selection={selectedResultado}
-                        onSelectionChange={(e) => setSelectedResultado(e.value)}
+                        value={acciones}
+                        selection={selectedAccion}
+                        onSelectionChange={(e) => setSelectedAccion(e.value)}
                         dataKey="idAccion"
                         paginator
                         rows={10}
                         rowsPerPageOptions={[5, 10, 25]}
                         className="datatable-responsive"
                         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-                        currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} resultados"
+                        currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} acciones"
                         globalFilter={globalFilter}
-                        emptyMessage="No hay resultados encontrados."
+                        emptyMessage="No hay acciones encontradas."
                         header={header}
                         responsiveLayout="scroll"
                     >
                         <Column selectionMode="single" headerStyle={{ width: "3rem" }}></Column>
                         <Column field="idAccion" header="ID" sortable></Column>
-                        <Column field="nombreAccion" header="Resultado" sortable></Column>
-                        <Column field="eje.nombreEje" header="Eje" sortable></Column>
-                        <Column field="indicador.nombreIndicador" header="Indicador" sortable></Column>
-                        <Column field="anio.valorAnio" header="Año" sortable></Column>
+                        <Column field="nombreAccion" header="Acción" sortable></Column>
+                        <Column field="resultado.nombreResultado" header="Resultado" sortable></Column>
+                        <Column field="financiamiento.nombreFinanciamiento" header="Financiamiento" sortable></Column>
+                        <Column field="lineaTrabajo.nombreLineaTrabajo" header="Linea de trabajo" sortable></Column>
                         <Column header="Acciones" body={actionBodyTemplate}></Column>
                     </DataTable>
 
-                    <Dialog visible={resultadoDlg} style={{ width: "450px" }} header="Detalle de resultado" modal className="p-fluid" footer={resultadoDlgFooter} onHide={hideDialog}>
-                        {/* {JSON.stringify(resultado)} */}
+                    <Dialog visible={accionDlg} style={{ width: "450px" }} header="Detalle de accion" modal className="p-fluid" footer={accionDlgFooter} onHide={hideDialog}>
+                        {/* {JSON.stringify(accion)} */}
                         <div className="field">
-                            <label htmlFor="idEje">Eje</label>
+                            <label htmlFor="idResultado">Resultado</label>
                             <Dropdown
-                                id="idEje"
-                                name="idEje"
-                                value={resultado.eje.idEje}
-                                onChange={onEjeChange}
-                                options={ejes}
-                                optionLabel="nombreEje"
-                                optionValue="idEje"
+                                id="idResultado"
+                                name="idResultado"
+                                value={accion.resultado.idResultado}
+                                onChange={onResultadoChange}
+                                options={resultados}
+                                optionLabel="nombreResultado"
+                                optionValue="idResultado"
+                                placeholder="Selecccione una opción"
+                                required
+                                className={classNames({ "p-invalid": submitted && !accion.resultado.idResultado })}
+                            />
+                            {submitted && !accion.resultado.idResultado && <small className="p-invalid">Resultado es requerido.</small>}
+                        </div>
+                        <div className="field">
+                            <label htmlFor="idFinanciamiento">Financiamiento</label>
+                            <Dropdown
+                                id="idFinanciamiento"
+                                name="idFinanciamiento"
+                                value={accion.financiamiento.idFinanciamiento}
+                                onChange={onFinanciamientoChange}
+                                options={financiamientos}
+                                optionLabel="nombreFinanciamiento"
+                                optionValue="idFinanciamiento"
                                 placeholder="Selecccione una opción"
                                 required
                                 autoFocus
-                                className={classNames({ "p-invalid": submitted && !resultado.eje.idEje })}
+                                className={classNames({ "p-invalid": submitted && !accion.financiamiento.idFinanciamiento })}
                             />
-                            {submitted && !resultado.eje.idEje && <small className="p-invalid">Eje es requerido.</small>}
+                            {submitted && !accion.financiamiento.idFinanciamiento && <small className="p-invalid">Financiamiento es requerido.</small>}
                         </div>
                         <div className="field">
-                            <label htmlFor="idIndicador">Indicador</label>
+                            <label htmlFor="idLineaTrabajo">Linea de trabajo</label>
                             <Dropdown
-                                id="idIndicador"
-                                name="idIndicador"
-                                value={resultado.indicador.idIndicador}
-                                onChange={onIndicadorChange}
-                                options={indicadores}
-                                optionLabel="nombreIndicador"
-                                optionValue="idIndicador"
+                                id="idLineaTrabajo"
+                                name="idLineaTrabajo"
+                                value={accion.lineaTrabajo.idLineaTrabajo}
+                                onChange={onLineaTrabajoChange}
+                                options={lineasTrabajo}
+                                optionLabel="nombreLineaTrabajo"
+                                optionValue="idLineaTrabajo"
                                 placeholder="Selecccione una opción"
                                 required
-                                className={classNames({ "p-invalid": submitted && !resultado.indicador.idIndicador })}
+                                className={classNames({ "p-invalid": submitted && !accion.lineaTrabajo.idLineaTrabajo })}
                             />
-                            {submitted && !resultado.indicador.idIndicador && <small className="p-invalid">Indicador es requerido.</small>}
-                        </div>
-                        <div className="field">
-                            <label htmlFor="idAnio">Año</label>
-                            <Dropdown
-                                id="idAnio"
-                                name="idAnio"
-                                value={resultado.anio.idAnio}
-                                onChange={onAnioChange}
-                                options={anios}
-                                optionLabel="valorAnio"
-                                optionValue="idAnio"
-                                placeholder="Selecccione una opción"
-                                required
-                                className={classNames({ "p-invalid": submitted && !resultado.anio.idAnio })}
-                            />
-                            {submitted && !resultado.anio.idAnio && <small className="p-invalid">Año es requerido.</small>}
+                            {submitted && !accion.lineaTrabajo.idLineaTrabajo && <small className="p-invalid">Linea de trabajo es requerida.</small>}
                         </div>
                         <div className="field">
                             <label htmlFor="nombreAccion">Nombre</label>
-                            <InputText id="nombreAccion" value={resultado.nombreAccion} onChange={(e) => onInputChange(e, "nombreAccion")} required autoFocus className={classNames({ "p-invalid": submitted && !resultado.nombreAccion })} />
-                            {submitted && !resultado.nombreAccion && <small className="p-invalid">Nombre es requerido.</small>}
+                            <InputText id="nombreAccion" value={accion.nombreAccion} onChange={(e) => onInputChange(e, "nombreAccion")} required className={classNames({ "p-invalid": submitted && !accion.nombreAccion })} />
+                            {submitted && !accion.nombreAccion && <small className="p-invalid">Nombre es requerido.</small>}
+                        </div>
+                        <div className="field">
+                            <label htmlFor="descripcionAccion">Descripción</label>
+                            <InputText id="descripcionAccion" value={accion.descripcionAccion} onChange={(e) => onInputChange(e, "descripcionAccion")} className={classNames({ "p-invalid": submitted && !accion.descripcionAccion })} />
+                        </div>
+                        <div className="field">
+                            <label htmlFor="presupuestoAsignadoAccion">Presupuesto asignado</label>
+                            <InputNumber id="presupuestoAsignadoAccion" value={accion.presupuestoAsignadoAccion} onValueChange={(e) => onInputChange(e, "presupuestoAsignadoAccion")} mode="currency" currency="USD" locale="en-US" />
+                        </div>
+                        <div className="field">
+                            <label htmlFor="nombreResponsableAccion">Nombre responsable</label>
+                            <InputText id="nombreResponsableAccion" value={accion.nombreResponsableAccion} onChange={(e) => onInputChange(e, "nombreResponsableAccion")} className={classNames({ "p-invalid": submitted && !accion.nombreResponsableAccion })} />
+                        </div>
+                        <div className="field">
+                            <label htmlFor="numeroAccionesAnualesAccion">Número acciones anuales</label>
+                            <InputNumber
+                                inputId="numeroAccionesAnualesAccion"
+                                value={accion.numeroAccionesAnualesAccion}
+                                onValueChange={(e) => onInputChange(e, "numeroAccionesAnualesAccion")}
+                                showButtons
+                                min={0}
+                                className={classNames({ "p-invalid": submitted && !accion.numeroAccionesAnualesAccion })}
+                            />
+                            {submitted && !accion.numeroAccionesAnualesAccion && <small className="p-invalid">Número de acciones anuales es requerido.</small>}
+                        </div>
+                        <div className="field">
+                            <label htmlFor="observacion">Observación</label>
+                            <InputText id="observacion" value={accion.observacion} onChange={(e) => onInputChange(e, "observacion")} className={classNames({ "p-invalid": submitted && !accion.observacion })} />
                         </div>
                     </Dialog>
 
-                    <Dialog visible={deleteResultadoDlg} style={{ width: "450px" }} header="Confirm" modal footer={deleteResultadoDlgFooter} onHide={hideDeleteResultadoDialog}>
+                    <Dialog visible={deleteAccionDlg} style={{ width: "450px" }} header="Confirm" modal footer={deleteAccionDlgFooter} onHide={hideDeleteAccionDialog}>
                         <div className="flex align-items-center justify-content-center">
                             <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: "2rem" }} />
-                            {resultado && (
+                            {accion && (
                                 <span>
-                                    ¿Está seguro de eliminar el siguiente registro? <b>{resultado.nombreAccion}</b>?
+                                    ¿Está seguro de eliminar el siguiente registro? <b>{accion.nombreAccion}</b>?
                                 </span>
                             )}
                         </div>

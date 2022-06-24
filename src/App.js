@@ -37,6 +37,8 @@ import CrudUsuarios from "./pages/CrudUsuarios";
 import CrudObjetivos from "./pages/CrudObjetivos";
 import CrudEjes from "./pages/CrudEjes";
 import CrudResultados from "./pages/CrudResultados";
+import CrudAcciones from "./pages/CrudAcciones";
+import CrudSeguimientos from "./pages/CrudSeguimientos";
 
 const App = () => {
     const [layoutMode, setLayoutMode] = useState("static");
@@ -223,12 +225,25 @@ const App = () => {
                     label: "Acciones",
                     icon: "pi pi-fw pi-book",
                     command: () => {
-                        window.location.hash = "/";
+                        window.location.hash = "/acciones";
                     },
                 },
                 {
                     label: "Seguimientos",
                     icon: "pi pi-fw pi-check-circle",
+                    command: () => {
+                        window.location.hash = "/seguimientos";
+                    },
+                },
+            ],
+        },
+        {
+            label: "Matríz riesgos",
+            icon: "pi pi-fw pi-eye",
+            items: [
+                {
+                    label: "Gestionar",
+                    icon: "pi pi-fw pi-file-excel",
                     command: () => {
                         window.location.hash = "/";
                     },
@@ -365,6 +380,8 @@ const App = () => {
                     <Route path="/objetivos" component={CrudObjetivos} />
                     <Route path="/ejes" component={CrudEjes} />
                     <Route path="/resultados" component={CrudResultados} />
+                    <Route path="/acciones" component={CrudAcciones} />
+                    <Route path="/seguimientos" component={CrudSeguimientos} />
                 </div>
 
                 <AppFooter />
