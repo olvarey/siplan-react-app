@@ -249,7 +249,7 @@ const CrudAnios = () => {
                         <div className="field">
                             <label htmlFor="valorAnio">Valor año</label>
                             <InputText id="valorAnio" value={anio.valorAnio} onChange={(e) => onInputChange(e, "valorAnio")} required autoFocus className={classNames({ "p-invalid": submitted && !anio.valorAnio })} />
-                            {submitted && !anio.valorAnio && <small className="p-invalid">Nombre es requerido.</small>}
+                            {submitted && !anio.valorAnio && <small className="p-invalid">Año es requerido.</small>}
                         </div>
                     </Dialog>
 
