@@ -32,7 +32,6 @@ import CrudAnios from "./pages/CrudAnios";
 import CrudUnidadesPresupuestarias from "./pages/CrudUnidadesPresupuestarias";
 import CrudFinanciamientos from "./pages/CrudFinanciamientos";
 import CrudLineasTrabajo from "./pages/CrudLineasTrabajo";
-import CrudMeses from "./pages/CrudMeses";
 import CrudUsuarios from "./pages/CrudUsuarios";
 import CrudObjetivos from "./pages/CrudObjetivos";
 import CrudEjes from "./pages/CrudEjes";
@@ -262,13 +261,6 @@ const App = () => {
                     },
                 },
                 {
-                    label: "Meses",
-                    icon: "pi pi-fw pi-calendar-plus",
-                    command: () => {
-                        window.location.hash = "/meses";
-                    },
-                },
-                {
                     label: "Financiamientos",
                     icon: "pi pi-fw pi-dollar",
                     command: () => {
@@ -375,7 +367,6 @@ const App = () => {
                     <Route path="/unidades-presupuestarias" component={CrudUnidadesPresupuestarias} />
                     <Route path="/financiamientos" component={CrudFinanciamientos} />
                     <Route path="/lineas-trabajo" component={CrudLineasTrabajo} />
-                    <Route path="/meses" component={CrudMeses} />
                     <Route path="/usuarios" component={CrudUsuarios} />
                     <Route path="/objetivos" component={CrudObjetivos} />
                     <Route path="/ejes" component={CrudEjes} />

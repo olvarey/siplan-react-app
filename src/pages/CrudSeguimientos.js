@@ -7,12 +7,12 @@ import { Button } from "primereact/button";
 import { Toolbar } from "primereact/toolbar";
 import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
+import { InputTextarea } from "primereact/inputtextarea";
 import { Dropdown } from "primereact/dropdown";
 import { InputNumber } from "primereact/inputnumber";
-import { Checkbox } from 'primereact/checkbox';
+import { Checkbox } from "primereact/checkbox";
 import { SeguimientoService } from "../service/SeguimientoService";
 import { AccionService } from "../service/AccionService";
-import { MesService } from "../service/MesService";
 
 const CrudSeguimientos = () => {
     let emptySeguimiento = {
@@ -22,11 +22,9 @@ const CrudSeguimientos = () => {
         numeroAccionesMensuales: 0,
         ejecutado: false,
         fechaEjecucionSeguimiento: null,
+        mes: "",
         accion: {
             idAccion: null,
-        },
-        mes: {
-            idMes: null,
         },
     };
 
@@ -76,8 +74,7 @@ const CrudSeguimientos = () => {
                 toast.current.show({ severity: "error", summary: "Falló", detail: "Acciones no han podido ser cargadas.", life: 3000 });
             });
 
-        const mesService = new MesService();
-        mesService
+        seguimientoService
             .getMeses(fetchToken())
             .then((res) => {
                 if (res.status === 200) {
@@ -205,8 +202,14 @@ const CrudSeguimientos = () => {
         const val = (e.target && e.target.value) || "";
         let _seguimiento = { ...seguimiento };
         _seguimiento[`${name}`] = val;
-
         setSeguimiento(_seguimiento);
+    };
+
+    const onCheckboxChange = (e) => {
+        let _seguimiento = { ...seguimiento };
+        console.log(e.target.value);
+        // _seguimiento["ejecutado"] = e.target.value;
+        // setSeguimiento(_seguimiento);
     };
 
     const onAccionChange = (e) => {
@@ -214,10 +217,11 @@ const CrudSeguimientos = () => {
         setSeguimiento({ ..._seguimiento, accion: { ..._seguimiento.accion, [e.target.name]: e.target.value } });
     };
 
-    const onMesChange = (e) => {
-        let _seguimiento = { ...seguimiento };
-        setSeguimiento({ ..._seguimiento, mes: { ..._seguimiento.mes, [e.target.name]: e.target.value } });
-    };
+    // const onMesChange = (e) => {
+    //     console.log(e.target.value);
+    //     let _seguimiento = { ...seguimiento };
+    //     setSeguimiento({ ..._seguimiento, mes: { ..._seguimiento.mes, [e.target.name]: e.target.value } });
+    // };
 
     const leftToolbarTemplate = () => {
         return (
@@ -298,7 +302,7 @@ const CrudSeguimientos = () => {
                         <Column field="idSeguimiento" header="ID" sortable></Column>
                         <Column field="accion.resultado.nombreResultado" header="Resultado" sortable></Column>
                         <Column field="accion.nombreAccion" header="Acción" sortable></Column>
-                        <Column field="mes.nombreMes" header="Mes" sortable></Column>
+                        <Column field="mes" header="Mes" sortable></Column>
                         <Column header="Acciones" body={actionBodyTemplate}></Column>
                     </DataTable>
 
@@ -323,17 +327,24 @@ const CrudSeguimientos = () => {
                         </div>
                         <div className="field">
                             <label htmlFor="idMes">Mes</label>
-                            <Dropdown id="idMes" name="idMes" value={seguimiento.mes.idMes} onChange={onMesChange} options={meses} optionLabel="nombreMes" optionValue="idMes" placeholder="Selecccione una opción" required className={classNames({ "p-invalid": submitted && !seguimiento.mes.idMes })} />
-                            {submitted && !seguimiento.mes.idMes && <small className="p-invalid">Mes es requerido.</small>}
+                            <Dropdown
+                                id="idMes"
+                                name="idMes"
+                                value={seguimiento.idMes}
+                                onChange={(e) => onInputChange(e, "idMes")}
+                                options={meses}
+                                optionLabel="nombreMes"
+                                optionValue="nombreMes"
+                                placeholder="Selecccione una opción"
+                                required
+                                className={classNames({ "p-invalid": submitted && !seguimiento.mes })}
+                            />
+                            {submitted && !seguimiento.mes && <small className="p-invalid">Mes es requerido.</small>}
                         </div>
                         <div className="field">
                             <label htmlFor="detalleSeguimiento">Detalle seguimiento</label>
-                            <InputText id="detalleSeguimiento" value={seguimiento.detalleSeguimiento} onChange={(e) => onInputChange(e, "detalleSeguimiento")} required className={classNames({ "p-invalid": submitted && !seguimiento.detalleSeguimiento })} />
+                            <InputTextarea id="detalleSeguimiento" rows={5} cols={30} value={seguimiento.detalleSeguimiento} onChange={(e) => onInputChange(e, "detalleSeguimiento")} required className={classNames({ "p-invalid": submitted && !seguimiento.detalleSeguimiento })} />
                             {submitted && !seguimiento.detalleSeguimiento && <small className="p-invalid">Nombre es requerido.</small>}
-                        </div>
-                        <div className="field">
-                            <label htmlFor="descripcionAccion">Descripción</label>
-                            <InputText id="descripcionAccion" value={seguimiento.descripcionAccion} onChange={(e) => onInputChange(e, "descripcionAccion")} className={classNames({ "p-invalid": submitted && !seguimiento.descripcionAccion })} />
                         </div>
                         <div className="field">
                             <label htmlFor="presupuestoEjecutado">Presupuesto ejecutado</label>
@@ -344,9 +355,9 @@ const CrudSeguimientos = () => {
                             <InputNumber inputId="numeroAccionesMensuales" value={seguimiento.numeroAccionesMensuales} onValueChange={(e) => onInputChange(e, "numeroAccionesMensuales")} showButtons min={0} className={classNames({ "p-invalid": submitted && !seguimiento.numeroAccionesMensuales })} />
                             {submitted && !seguimiento.numeroAccionesMensuales && <small className="p-invalid">Número de seguimientos anuales es requerido.</small>}
                         </div>
-                        <div className="field">
-                            <label htmlFor="ejecutado">Observación</label>
-                            <Checkbox id="ejecutado" onChange={(e) => onInputChange(e, "ejecutado")} className={classNames({ "p-invalid": submitted && !seguimiento.ejecutado })} checked={seguimiento.ejecutado}></Checkbox>
+                        <div className="field-checkbox">
+                            <Checkbox id="ejecutado" onChange={(e) => onCheckboxChange()} checked={seguimiento.ejecutado}></Checkbox>
+                            <label htmlFor="ejecutado">Ejecutado</label>
                         </div>
                     </Dialog>
 
