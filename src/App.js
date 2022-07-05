@@ -241,8 +241,36 @@ const App = () => {
             icon: "pi pi-fw pi-eye",
             items: [
                 {
-                    label: "Gestionar",
-                    icon: "pi pi-fw pi-file-excel",
+                    label: "Riesgos",
+                    icon: "pi pi-fw pi-volume-up",
+                    command: () => {
+                        window.location.hash = "/";
+                    },
+                },
+                {
+                    label: "Estratégia sobre riesgo",
+                    icon: "pi pi-fw pi-thumbs-up",
+                    command: () => {
+                        window.location.hash = "/";
+                    },
+                },
+                {
+                    label: "Seguimientos riesgo",
+                    icon: "pi pi-fw pi-sign-in",
+                    command: () => {
+                        window.location.hash = "/";
+                    },
+                },
+                {
+                    label: "Código riesgo",
+                    icon: "pi pi-fw pi-qrcode",
+                    command: () => {
+                        window.location.hash = "/";
+                    },
+                },
+                {
+                    label: "Categoría riesgo",
+                    icon: "pi pi-fw pi-flag",
                     command: () => {
                         window.location.hash = "/";
                     },
