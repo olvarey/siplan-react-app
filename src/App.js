@@ -38,6 +38,9 @@ import CrudEjes from "./pages/CrudEjes";
 import CrudResultados from "./pages/CrudResultados";
 import CrudAcciones from "./pages/CrudAcciones";
 import CrudSeguimientos from "./pages/CrudSeguimientos";
+import CrudCodigoRiesgo from "./pages/CrudCodigoRiesgo";
+import CrudCategoriaRiesgo from "./pages/CrudCategoriaRiesgo";
+import CrudEstrategiaRiesgo from "./pages/CrudEstrategiaRiesgo";
 
 const App = () => {
     const [layoutMode, setLayoutMode] = useState("static");
@@ -251,7 +254,7 @@ const App = () => {
                     label: "Estratégia sobre riesgo",
                     icon: "pi pi-fw pi-thumbs-up",
                     command: () => {
-                        window.location.hash = "/";
+                        window.location.hash = "/estrategias-riesgo";
                     },
                 },
                 {
@@ -265,14 +268,14 @@ const App = () => {
                     label: "Código riesgo",
                     icon: "pi pi-fw pi-qrcode",
                     command: () => {
-                        window.location.hash = "/";
+                        window.location.hash = "/codigos-riesgo";
                     },
                 },
                 {
                     label: "Categoría riesgo",
                     icon: "pi pi-fw pi-flag",
                     command: () => {
-                        window.location.hash = "/";
+                        window.location.hash = "/categorias-riesgo";
                     },
                 },
             ],
@@ -401,6 +404,9 @@ const App = () => {
                     <Route path="/resultados" component={CrudResultados} />
                     <Route path="/acciones" component={CrudAcciones} />
                     <Route path="/seguimientos" component={CrudSeguimientos} />
+                    <Route path="/codigos-riesgo" component={CrudCodigoRiesgo} />
+                    <Route path="/categorias-riesgo" component={CrudCategoriaRiesgo} />
+                    <Route path="/estrategias-riesgo" component={CrudEstrategiaRiesgo} />
                 </div>
 
                 <AppFooter />
