@@ -41,6 +41,7 @@ import CrudSeguimientos from "./pages/CrudSeguimientos";
 import CrudCodigoRiesgo from "./pages/CrudCodigoRiesgo";
 import CrudCategoriaRiesgo from "./pages/CrudCategoriaRiesgo";
 import CrudEstrategiaRiesgo from "./pages/CrudEstrategiaRiesgo";
+import CrudSeguimientosRiesgo from "./pages/CrudSeguimientosRiesgo";
 
 const App = () => {
     const [layoutMode, setLayoutMode] = useState("static");
@@ -261,7 +262,7 @@ const App = () => {
                     label: "Seguimientos riesgo",
                     icon: "pi pi-fw pi-sign-in",
                     command: () => {
-                        window.location.hash = "/";
+                        window.location.hash = "/seguimientos-riesgo";
                     },
                 },
                 {
@@ -407,6 +408,7 @@ const App = () => {
                     <Route path="/codigos-riesgo" component={CrudCodigoRiesgo} />
                     <Route path="/categorias-riesgo" component={CrudCategoriaRiesgo} />
                     <Route path="/estrategias-riesgo" component={CrudEstrategiaRiesgo} />
+                    <Route path="/seguimientos-riesgo" component={CrudSeguimientosRiesgo} />
                 </div>
 
                 <AppFooter />

@@ -16,6 +16,19 @@ export class SeguimientoRiesgoService {
         return axios(config);
     }
 
+    async getMeses(token) {
+        let config = {
+            method: "get",
+            url: api + "/meses",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        };
+
+        return axios(config);
+    }
+
     async saveSeguimientoRiesgo(data, token) {
         let config = {
             method: "post",
