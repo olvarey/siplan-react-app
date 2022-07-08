@@ -42,6 +42,7 @@ import CrudCodigoRiesgo from "./pages/CrudCodigoRiesgo";
 import CrudCategoriaRiesgo from "./pages/CrudCategoriaRiesgo";
 import CrudEstrategiaRiesgo from "./pages/CrudEstrategiaRiesgo";
 import CrudSeguimientosRiesgo from "./pages/CrudSeguimientosRiesgo";
+import CrudRiesgos from "./pages/CrudRiesgos";
 
 const App = () => {
     const [layoutMode, setLayoutMode] = useState("static");
@@ -248,7 +249,7 @@ const App = () => {
                     label: "Riesgos",
                     icon: "pi pi-fw pi-volume-up",
                     command: () => {
-                        window.location.hash = "/";
+                        window.location.hash = "/riesgos";
                     },
                 },
                 {
@@ -409,6 +410,7 @@ const App = () => {
                     <Route path="/categorias-riesgo" component={CrudCategoriaRiesgo} />
                     <Route path="/estrategias-riesgo" component={CrudEstrategiaRiesgo} />
                     <Route path="/seguimientos-riesgo" component={CrudSeguimientosRiesgo} />
+                    <Route path="/riesgos" component={CrudRiesgos} />
                 </div>
 
                 <AppFooter />

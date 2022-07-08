@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const api = "http://localhost:8080/api-siplan/v1/acciones";
+const api = "http://192.168.10.82:8080/api-siplan/v1/acciones";
 
 export class AccionService {
     async getAcciones(token) {

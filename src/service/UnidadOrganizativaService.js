@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const api = "http://localhost:8080/api-siplan/v1/unidades-organizativas";
+const api = "http://192.168.10.82:8080/api-siplan/v1/unidades-organizativas";
 
 export class UnidadOrganizativaService {
     async getUnidadesOrganizativas(token) {

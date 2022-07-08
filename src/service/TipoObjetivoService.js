@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const api = "http://localhost:8080/api-siplan/v1/tipos-objetivo";
+const api = "http://192.168.10.82:8080/api-siplan/v1/tipos-objetivo";
 
 export class TipoObjetivoService {
     async getTiposObjetivo(token) {

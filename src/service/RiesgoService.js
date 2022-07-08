@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const api = "http://localhost:8080/api-siplan/v1/riesgos";
+const api = "http://192.168.10.82:8080/api-siplan/v1/riesgos";
 
 export class RiesgoService {
     async getRiesgos(token) {
@@ -39,6 +39,45 @@ export class RiesgoService {
                 Authorization: `Bearer ${token}`,
             },
             data: data,
+        };
+
+        return axios(config);
+    }
+
+    async getFrecuencias(token) {
+        let config = {
+            method: "get",
+            url: api + "/frecuencias",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        };
+
+        return axios(config);
+    }
+
+    async getImpactos(token) {
+        let config = {
+            method: "get",
+            url: api + "/impactos",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        };
+
+        return axios(config);
+    }
+
+    async getExposiciones(token) {
+        let config = {
+            method: "get",
+            url: api + "/exposiciones",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
         };
 
         return axios(config);
